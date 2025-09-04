@@ -58,6 +58,17 @@ window.onload = function() {
 
     document.getElementById('playerForm').addEventListener('submit', addPlayer); 
     document.getElementById('playerList').addEventListener('click', handlePlayerListClick);
+    
+    document.querySelector(".filtroPlayer").addEventListener("click", () => {
+        const clube = prompt("Digite o nome do clube para filtrar:");
+        if (clube) {
+            filterPlayersByClub(clube);
+        }
+    });    
+    
+    document.querySelector(".resetFiltro").addEventListener("click", () => {
+    displayPlayers();
+    });
 };
 
 // ---------- Funções Auxiliares ----------
@@ -218,4 +229,39 @@ function favoritePlayer(index) {
     }
     savePlayers();
     displayPlayers();
+}
+
+function filterPlayersByClub(clube) {
+    const playerList = document.getElementById('playerList');
+    playerList.innerHTML = '';
+
+    // filtra jogadoras do clube escolhido
+    const filteredPlayers = players.filter(player => 
+        player.clube.toLowerCase() === clube.toLowerCase()
+    );
+
+    if (filteredPlayers.length === 0) {
+        playerList.innerHTML = `<p>Nenhuma jogadora encontrada para o clube "${clube}".</p>`;
+        return;
+    }
+
+    // renderiza apenas as filtradas
+    filteredPlayers.forEach((pegaPlayer, index) => {
+        const playerElement = document.createElement('div');
+        playerElement.classList.add('card-player');
+
+        playerElement.innerHTML = `
+            <button id="favorito" data-action="favorite" data-index="${index}"><i class="fa-solid fa-star ${pegaPlayer.favorita ? 'favoritado' : ''}"></i></button>
+            <p>${pegaPlayer.foto ? `<img src="${pegaPlayer.foto}" alt="Imagem do player" style="max-width:150px;">` : ""}</p>
+            <p><em>Nome: ${pegaPlayer.nome}</em></p>
+            <p><em>Clube: ${pegaPlayer.clube}</em></p>
+            <p><em>Posição: ${pegaPlayer.posicao}</em></p>
+            <p><em>Gols: ${pegaPlayer.gols}</em></p>
+            <p><em>Assistências: ${pegaPlayer.assistencias}</em></p>
+            <p><em>Jogos: ${pegaPlayer.jogos}</em></p>
+            <button data-action="edit" data-index="${index}"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+            <button data-action="delete" data-index="${index}"><i class="fa-solid fa-eraser"></i> Apagar</button>`;
+           
+        playerList.append(playerElement);
+    });
 }
