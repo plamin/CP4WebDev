@@ -59,17 +59,44 @@ window.onload = function() {
     document.getElementById('playerForm').addEventListener('submit', addPlayer); 
     document.getElementById('playerList').addEventListener('click', handlePlayerListClick);
     
+    // filtro por clube
     document.querySelector(".filtroPlayer").addEventListener("click", () => {
         const clube = prompt("Digite o nome do clube para filtrar:");
         if (clube) {
             filterPlayersByClub(clube);
         }
     });    
-    
+
+    // resetar filtro por clube
     document.querySelector(".resetFiltro").addEventListener("click", () => {
-    displayPlayers();
+        displayPlayers();
+    });
+
+    // busca por nome ou posição
+    document.getElementById("searchBtn").addEventListener("click", () => {
+        const query = document.getElementById("searchInput").value.trim();
+        if (query) {
+            searchPlayers(query);
+        }
+    });
+
+    // resetar busca
+    document.getElementById("resetBtn").addEventListener("click", () => {
+        displayPlayers();
+        document.getElementById("searchInput").value = "";
+    });
+
+    // ordenação
+    document.getElementById("sortByName").addEventListener("click", () => {
+        sortPlayersByName();
+    });
+
+    document.getElementById("sortByPosition").addEventListener("click", () => {
+        sortPlayersByPosition();
     });
 };
+
+
 
 // ---------- Funções Auxiliares ----------
 
@@ -264,4 +291,50 @@ function filterPlayersByClub(clube) {
            
         playerList.append(playerElement);
     });
+}
+
+function searchPlayers(query) {
+    const playerList = document.getElementById('playerList');
+    playerList.innerHTML = '';
+
+    const filteredPlayers = players.filter(player =>
+        player.nome.toLowerCase().includes(query.toLowerCase()) ||
+        player.posicao.toLowerCase().includes(query.toLowerCase())
+    );
+
+    if (filteredPlayers.length === 0) {
+        playerList.innerHTML = `<p>Nenhuma jogadora encontrada para "${query}".</p>`;
+        return;
+    }
+
+    filteredPlayers.forEach((pegaPlayer, index) => {
+        const playerElement = document.createElement('div');
+        playerElement.classList.add('card-player');
+
+        playerElement.innerHTML = `
+            <button id="favorito" data-action="favorite" data-index="${index}"><i class="fa-solid fa-star ${pegaPlayer.favorita ? 'favoritado' : ''}"></i></button>
+            <p>${pegaPlayer.foto ? `<img src="${pegaPlayer.foto}" alt="Imagem do player" style="max-width:150px;">` : ""}</p>
+            <p><em>Nome: ${pegaPlayer.nome}</em></p>
+            <p><em>Clube: ${pegaPlayer.clube}</em></p>
+            <p><em>Posição: ${pegaPlayer.posicao}</em></p>
+            <p><em>Gols: ${pegaPlayer.gols}</em></p>
+            <p><em>Assistências: ${pegaPlayer.assistencias}</em></p>
+            <p><em>Jogos: ${pegaPlayer.jogos}</em></p>
+            <button data-action="edit" data-index="${index}"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
+            <button data-action="delete" data-index="${index}"><i class="fa-solid fa-eraser"></i> Apagar</button>`;
+           
+        playerList.append(playerElement);
+    });
+}
+
+function sortPlayersByName() {
+    players.sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+    savePlayers();
+    displayPlayers();
+}
+
+function sortPlayersByPosition() {
+    players.sort((a, b) => a.posicao.localeCompare(b.posicao, 'pt-BR'));
+    savePlayers();
+    displayPlayers();
 }
