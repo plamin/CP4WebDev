@@ -74,6 +74,8 @@ function handlePostListClick(event) {
         editPost(index);
     } else if (action === "delete") {
         deletePost(index);
+    } else if (action === "favorite") {
+        favoritePlayer(index);
     }
 }
 
@@ -130,7 +132,8 @@ function displayPosts() {
             postElement.classList.add('card-post');
   
             postElement.innerHTML = `
-                ${pegaPost.foto ? `<img src="${pegaPost.foto}" alt="Imagem do post" style="max-width:150px;">` : ""}
+                <button id="favorito" data-action="favorite" data-index="${index}"><i class="fa-solid fa-star ${pegaPost.favorita ? 'favoritado' : ''}"></i></button>
+                <p>${pegaPost.foto ? `<img src="${pegaPost.foto}" alt="Imagem do post" style="max-width:150px;">` : ""}</p>
                 <p><em>Nome: ${pegaPost.nome}</em></p>
                 <p><em>Clube: ${pegaPost.clube}</em></p>
                 <p><em>Posição: ${pegaPost.posicao}</em></p>
@@ -138,8 +141,7 @@ function displayPosts() {
                 <p><em>Assistências: ${pegaPost.assistencias}</em></p>
                 <p><em>Jogos: ${pegaPost.jogos}</em></p>
                 <button data-action="edit" data-index="${index}"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
-                <button data-action="delete" data-index="${index}"><i class="fa-solid fa-eraser"></i> Apagar</button>
-                <hr style="margin:30px;">`;
+                <button data-action="delete" data-index="${index}"><i class="fa-solid fa-eraser"></i> Apagar</button>`;
                
             postList.append(postElement);
         });
@@ -200,10 +202,19 @@ function editPost(index) {
 }
 //DELETE
 function deletePost(index) {
-    const confirmar = confirm("Tem certeza que deseja apagar este post?");
+    const confirmar = confirm("Tem certeza que deseja apagar essa jogadora?");
     if (confirmar) {
         posts.splice(index, 1);
         savePosts();
         displayPosts();
     }
+}
+
+function favoritePlayer(index) {
+    const confirmar = confirm("Tem certeza que deseja favoritar essa jogadora?");
+    if (confirmar) {
+        posts[index].favorita = !posts[index].favorita;  
+    }
+    savePosts();
+    displayPosts();
 }
