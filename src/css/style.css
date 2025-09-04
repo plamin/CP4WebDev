@@ -9,8 +9,8 @@ body {
 }
 
 .container {
-    width: 80%; /* Define a largura máxima do conteúdo */
-    margin: 20px; /* Adiciona margens laterais */
+    width: 80%; 
+    margin: 20px;
 }
 
 header {
