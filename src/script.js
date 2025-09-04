@@ -1,4 +1,4 @@
-let posts = [
+let players = [
   {
     "nome": "Andressa Alves",
     "posicao": "Meio-campo",
@@ -53,17 +53,17 @@ let posts = [
 
 // Inicialização
 window.onload = function() {
-    loadPosts();
-    displayPosts();
+    loadPlayers();
+    displayPlayers();
 
-    document.getElementById('postForm').addEventListener('submit', addPost); 
-    document.getElementById('postList').addEventListener('click', handlePostListClick);
+    document.getElementById('playerForm').addEventListener('submit', addPlayer); 
+    document.getElementById('playerList').addEventListener('click', handlePlayerListClick);
 };
 
 // ---------- Funções Auxiliares ----------
 
-// Função para lidar com cliques na lista de posts
-function handlePostListClick(event) {
+// Função para lidar com cliques na lista de players
+function handlePlayerListClick(event) {
     const clickedElement = event.target.closest("button"); // garante que pega o botão
     if (!clickedElement) return;
 
@@ -71,150 +71,151 @@ function handlePostListClick(event) {
     const index = clickedElement.dataset.index;
 
     if (action === "edit") {
-        editPost(index);
+        editPlayer(index);
     } else if (action === "delete") {
-        deletePost(index);
+        deletePlayer(index);
     } else if (action === "favorite") {
         favoritePlayer(index);
     }
 }
 
 // Função para salvar no LocalStorage
-function savePosts() {
-    localStorage.setItem("posts", JSON.stringify(posts));
+function savePlayers() {
+    localStorage.setItem("players", JSON.stringify(players));
 }
-// Função para carregar os posts do LocalStorage
-function loadPosts() {
-    const storedPosts = localStorage.getItem("posts");
-    if (storedPosts) {
-        posts = JSON.parse(storedPosts);
+// Função para carregar os players do LocalStorage
+function loadPlayers() {
+    const storedPlayers = localStorage.getItem("players");
+    if (storedPlayers) {
+        players = JSON.parse(storedPlayers);
     }
 }
 
 // CREATE
-function addPost(event) {
+function addPlayer(event) {
     event.preventDefault();
     
-    const postImage = document.getElementById('postImage').value;
-    const postName = document.getElementById('playerName').value;
-    const postClub = document.getElementById('playerClub').value;
-    const postPosition = document.getElementById('playerPosition').value;
-    const postGoals = document.getElementById('playerGoals').value;
-    const postAssists = document.getElementById('playerAssists').value;
-    const postGames = document.getElementById('playerGames').value;
+    const playerImage = document.getElementById('playerImage').value;
+    const playerName = document.getElementById('playerName').value;
+    const playerClub = document.getElementById('playerClub').value;
+    const playerPosition = document.getElementById('playerPosition').value;
+    const playerGoals = document.getElementById('playerGoals').value;
+    const playerAssists = document.getElementById('playerAssists').value;
+    const playerGames = document.getElementById('playerGames').value;
 
-    const post = { 
-        foto: postImage, 
-        nome: postName,
-        clube: postClub,
-        posicao: postPosition, 
-        gols: postGoals,
-        assistencias: postAssists,
-        jogos: postGames
+    const player = { 
+        foto: playerImage, 
+        nome: playerName,
+        clube: playerClub,
+        posicao: playerPosition, 
+        gols: playerGoals,
+        assistencias: playerAssists,
+        jogos: playerGames
     };
     
-    posts.unshift(post);
-    savePosts(); // salva no localStorage
+    players.unshift(player);
+    savePlayers(); // salva no localStorage
     
-    document.getElementById('postForm').reset();
-    displayPosts();
+    document.getElementById('playerForm').reset();
+    displayPlayers();
 
     alert('Jogadora criada com sucesso')
 }
 
 // READ
-function displayPosts() {
-    const postList = document.getElementById('postList');
-    postList.innerHTML = '';
+function displayPlayers() {
+    const playerList = document.getElementById('playerList');
+    playerList.innerHTML = '';
 
-    posts.forEach((pegaPost, index) => {
-            const postElement = document.createElement('div');
-            postElement.classList.add('card-post');
+    players.forEach((pegaPlayer, index) => {
+            const playerElement = document.createElement('div');
+            playerElement.classList.add('card-player');
   
-            postElement.innerHTML = `
-                <button id="favorito" data-action="favorite" data-index="${index}"><i class="fa-solid fa-star ${pegaPost.favorita ? 'favoritado' : ''}"></i></button>
-                <p>${pegaPost.foto ? `<img src="${pegaPost.foto}" alt="Imagem do post" style="max-width:150px;">` : ""}</p>
-                <p><em>Nome: ${pegaPost.nome}</em></p>
-                <p><em>Clube: ${pegaPost.clube}</em></p>
-                <p><em>Posição: ${pegaPost.posicao}</em></p>
-                <p><em>Gols: ${pegaPost.gols}</em></p>
-                <p><em>Assistências: ${pegaPost.assistencias}</em></p>
-                <p><em>Jogos: ${pegaPost.jogos}</em></p>
+            playerElement.innerHTML = `
+                <button id="favorito" data-action="favorite" data-index="${index}"><i class="fa-solid fa-star ${pegaPlayer.favorita ? 'favoritado' : ''}"></i></button>
+                <p>${pegaPlayer.foto ? `<img src="${pegaPlayer.foto}" alt="Imagem do player" style="max-width:150px;">` : ""}</p>
+                <p><em>Nome: ${pegaPlayer.nome}</em></p>
+                <p><em>Clube: ${pegaPlayer.clube}</em></p>
+                <p><em>Posição: ${pegaPlayer.posicao}</em></p>
+                <p><em>Gols: ${pegaPlayer.gols}</em></p>
+                <p><em>Assistências: ${pegaPlayer.assistencias}</em></p>
+                <p><em>Jogos: ${pegaPlayer.jogos}</em></p>
                 <button data-action="edit" data-index="${index}"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
                 <button data-action="delete" data-index="${index}"><i class="fa-solid fa-eraser"></i> Apagar</button>`;
                
-            postList.append(postElement);
+            playerList.append(playerElement);
         });
 }
 
 //UPDATE
-function editPost(index) {
-    const novaFoto = prompt("Editar foto:", posts[index].foto);
+function editPlayer(index) {
+    const novaFoto = prompt("Editar foto:", players[index].foto);
     if (novaFoto !== null) {
-        posts[index].foto = novaFoto;
-        savePosts();
-        displayPosts();
+        players[index].foto = novaFoto;
+        savePlayers();
+        displayPlayers();
     }
 
-    const novoNome = prompt("Editar nome:", posts[index].nome);
+    const novoNome = prompt("Editar nome:", players[index].nome);
     if (novoNome !== null) {
-        posts[index].nome = novoNome;
-        savePosts();
-        displayPosts();
+        players[index].nome = novoNome;
+        savePlayers();
+        displayPlayers();
     }
 
-    const novoClube = prompt("Editar clube:", posts[index].clube);
+    const novoClube = prompt("Editar clube:", players[index].clube);
     if (novoClube !== null) {
-        posts[index].clube = novoClube;
-        savePosts();
-        displayPosts();
+        players[index].clube = novoClube;
+        savePlayers();
+        displayPlayers();
     }
     
-    const novaPosicao = prompt("Editar posição:", posts[index].posicao);
+    const novaPosicao = prompt("Editar posição:", players[index].posicao);
     if (novaPosicao !== null) {
-        posts[index].posicao = novaPosicao;
-        savePosts();
-        displayPosts();
+        players[index].posicao = novaPosicao;
+        savePlayers();
+        displayPlayers();
     }
 
-    const novoGol = prompt("Editar gols:", posts[index].gols);
+    const novoGol = prompt("Editar gols:", players[index].gols);
     if (novoGol !== null) {
-        posts[index].gols = novoGol;
-        savePosts();
-        displayPosts();
+        players[index].gols = novoGol;
+        savePlayers();
+        displayPlayers();
     }
 
-    const novaAssistencia = prompt("Editar assistências:", posts[index].assistencias);
+    const novaAssistencia = prompt("Editar assistências:", players[index].assistencias);
     if (novaAssistencia !== null) {
-        posts[index].assistencias = novaAssistencia;
-        savePosts();
-        displayPosts();
+        players[index].assistencias = novaAssistencia;
+        savePlayers();
+        displayPlayers();
     }
 
-    const novosJogos = prompt("Editar jogos:", posts[index].jogos);
+    const novosJogos = prompt("Editar jogos:", players[index].jogos);
     if (novosJogos !== null) {
-        posts[index].jogos = novosJogos;
-        savePosts();
-        displayPosts();
+        players[index].jogos = novosJogos;
+        savePlayers();
+        displayPlayers();
     }
 
     alert('Jogadora editada com sucesso')
 }
 //DELETE
-function deletePost(index) {
+function deletePlayer(index) {
     const confirmar = confirm("Tem certeza que deseja apagar essa jogadora?");
     if (confirmar) {
-        posts.splice(index, 1);
-        savePosts();
-        displayPosts();
+        players.splice(index, 1);
+        savePlayers();
+        displayPlayers();
     }
+    alert('Jogadora removida com sucesso!')
 }
 
 function favoritePlayer(index) {
     const confirmar = confirm("Tem certeza que deseja favoritar essa jogadora?");
     if (confirmar) {
-        posts[index].favorita = !posts[index].favorita;  
+        players[index].favorita = !players[index].favorita;  
     }
-    savePosts();
-    displayPosts();
+    savePlayers();
+    displayPlayers();
 }
