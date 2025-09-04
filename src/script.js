@@ -1,23 +1,55 @@
-// Dados de exemplo dos posts
 let posts = [
-    {
-        text: "Este é o primeiro post",
-        category: "Notícias",
-        image: "https://placedog.net/150?random=1",
-        date: "12/10/2021 12:00:00"
-    },
-    {
-        text: "Este é o segundo post",
-        category: "Dicas",
-        image: "https://placedog.net/150?random=2",
-        date: "12/10/2022 12:00:00"
-    },
-    {
-        text: "Este é o terceiro post teste",
-        category: "Eventos",
-        date: "12/10/2023 12:00:00"
-    }
-];
+  {
+    "nome": "Andressa Alves",
+    "posicao": "Meio-campo",
+    "clube": "Corinthians",
+    "foto": "https://example.com/andressa.jpg",
+    "gols": 15,
+    "assistencias": 10,
+    "jogos": 28,
+    "favorita": false
+  },
+  {
+    "nome": "Dayana Rodríguez",
+    "posicao": "Meio-campo",
+    "clube": "Corinthians",
+    "foto": "https://example.com/dayana.jpg",
+    "gols": 5,
+    "assistencias": 12,
+    "jogos": 30,
+    "favorita": false
+  },
+  {
+    "nome": "Mariza",
+    "posicao": "Zagueira",
+    "clube": "Corinthians",
+    "foto": "https://example.com/mariza.jpg",
+    "gols": 2,
+    "assistencias": 1,
+    "jogos": 32,
+    "favorita": false
+  },
+  {
+    "nome": "Thaís Regina",
+    "posicao": "Zagueira",
+    "clube": "Corinthians",
+    "foto": "https://example.com/thais.jpg",
+    "gols": 1,
+    "assistencias": 2,
+    "jogos": 25,
+    "favorita": false
+  },
+  {
+    "nome": "Letícia Teles",
+    "posicao": "Zagueira",
+    "clube": "Corinthians",
+    "foto": "https://example.com/leticia.jpg",
+    "gols": 0,
+    "assistencias": 0,
+    "jogos": 18,
+    "favorita": false
+  }
+]
 
 // Inicialização
 window.onload = function() {
@@ -61,16 +93,22 @@ function loadPosts() {
 function addPost(event) {
     event.preventDefault();
     
-    const postText = document.getElementById('postText').value;
-    const postCategory = document.getElementById('postCategory').value;
     const postImage = document.getElementById('postImage').value;
-    const postDate = new Date().toLocaleString(); 
+    const postName = document.getElementById('playerName').value;
+    const postClub = document.getElementById('playerClub').value;
+    const postPosition = document.getElementById('playerPosition').value;
+    const postGoals = document.getElementById('playerGoals').value;
+    const postAssists = document.getElementById('playerAssists').value;
+    const postGames = document.getElementById('playerGames').value;
 
     const post = { 
-        text: postText, 
-        category: postCategory, 
-        image: postImage, 
-        date: postDate 
+        foto: postImage, 
+        nome: postName,
+        clube: postClub,
+        posicao: postPosition, 
+        gols: postGoals,
+        assistencias: postAssists,
+        jogos: postGames
     };
     
     posts.unshift(post);
@@ -78,6 +116,8 @@ function addPost(event) {
     
     document.getElementById('postForm').reset();
     displayPosts();
+
+    alert('Jogadora criada com sucesso')
 }
 
 // READ
@@ -90,10 +130,13 @@ function displayPosts() {
             postElement.classList.add('card-post');
   
             postElement.innerHTML = `
-                <p>${pegaPost.text}</p>
-                ${pegaPost.image ? `<img src="${pegaPost.image}" alt="Imagem do post" style="max-width:150px;">` : ""}
-                <p><em>Categoria: ${pegaPost.category}</em></p>
-                <p><em>Data e Hora: ${pegaPost.date}</em></p>
+                ${pegaPost.foto ? `<img src="${pegaPost.foto}" alt="Imagem do post" style="max-width:150px;">` : ""}
+                <p><em>Nome: ${pegaPost.nome}</em></p>
+                <p><em>Clube: ${pegaPost.clube}</em></p>
+                <p><em>Posição: ${pegaPost.posicao}</em></p>
+                <p><em>Gols: ${pegaPost.gols}</em></p>
+                <p><em>Assistências: ${pegaPost.assistencias}</em></p>
+                <p><em>Jogos: ${pegaPost.jogos}</em></p>
                 <button data-action="edit" data-index="${index}"><i class="fa-solid fa-pen-to-square"></i> Editar</button>
                 <button data-action="delete" data-index="${index}"><i class="fa-solid fa-eraser"></i> Apagar</button>
                 <hr style="margin:30px;">`;
@@ -104,12 +147,56 @@ function displayPosts() {
 
 //UPDATE
 function editPost(index) {
-    const novoTexto = prompt("Editar post:", posts[index].text);
-    if (novoTexto !== null) {
-        posts[index].text = novoTexto;
+    const novaFoto = prompt("Editar foto:", posts[index].foto);
+    if (novaFoto !== null) {
+        posts[index].foto = novaFoto;
         savePosts();
         displayPosts();
     }
+
+    const novoNome = prompt("Editar nome:", posts[index].nome);
+    if (novoNome !== null) {
+        posts[index].nome = novoNome;
+        savePosts();
+        displayPosts();
+    }
+
+    const novoClube = prompt("Editar clube:", posts[index].clube);
+    if (novoClube !== null) {
+        posts[index].clube = novoClube;
+        savePosts();
+        displayPosts();
+    }
+    
+    const novaPosicao = prompt("Editar posição:", posts[index].posicao);
+    if (novaPosicao !== null) {
+        posts[index].posicao = novaPosicao;
+        savePosts();
+        displayPosts();
+    }
+
+    const novoGol = prompt("Editar gols:", posts[index].gols);
+    if (novoGol !== null) {
+        posts[index].gols = novoGol;
+        savePosts();
+        displayPosts();
+    }
+
+    const novaAssistencia = prompt("Editar assistências:", posts[index].assistencias);
+    if (novaAssistencia !== null) {
+        posts[index].assistencias = novaAssistencia;
+        savePosts();
+        displayPosts();
+    }
+
+    const novosJogos = prompt("Editar jogos:", posts[index].jogos);
+    if (novosJogos !== null) {
+        posts[index].jogos = novosJogos;
+        savePosts();
+        displayPosts();
+    }
+
+    alert('Jogadora editada com sucesso')
 }
 //DELETE
 function deletePost(index) {

@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f8fa;
+    background-color: #fff;
     margin: 0;
     padding: 0;
     display: flex;
@@ -14,7 +14,7 @@ body {
 }
 
 header {
-    background-color: #1da1f2;
+    background-color: rgb(40, 40, 40);
     color: #fff;
     padding: 10px 0;
     text-align: center;
@@ -52,7 +52,7 @@ textarea {
   }
 
 button {
-    background-color: #1da1f2;
+    background-color: rgb(40, 40, 40);
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -80,3 +80,34 @@ li {
 #postList{
    text-align: center;
 }
+
+#playerGoals {
+  width: 100% !important;
+  padding: 10px;
+  border: 1px solid #ccd6dd;
+  border-radius: 10px;
+  font-size: 16px;
+  display: block;
+  box-sizing: border-box;
+}
+
+#playerAssists {
+  width: 100% !important;
+  padding: 10px;
+  border: 1px solid #ccd6dd;
+  border-radius: 10px;
+  font-size: 16px;
+  display: block;
+  box-sizing: border-box;
+}
+
+#playerGames {
+  width: 100% !important;
+  padding: 10px;
+  border: 1px solid #ccd6dd;
+  border-radius: 10px;
+  font-size: 16px;
+  display: block;
+  box-sizing: border-box;
+}
+
