@@ -141,6 +141,12 @@ function addPlayer(event) {
     const playerAssists = document.getElementById('playerAssists').value;
     const playerGames = document.getElementById('playerGames').value;
 
+    if (!playerImage || !playerName || !playerClub || !playerPosition || !playerGoals || !playerAssists || !playerGames) {
+        alert("Por favor, preencha todos os campos obrigatórios!");
+        return;
+    }
+
+
     const player = { 
         foto: playerImage, 
         nome: playerName,
